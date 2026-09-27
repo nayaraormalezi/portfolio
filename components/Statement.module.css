@@ -1,0 +1,20 @@
+.section {
+  display: grid;
+  align-items: center;
+  min-height: min(88svh, 52rem);
+  padding-block: clamp(5rem, 12vw, 8rem);
+  background: var(--bg);
+}
+
+.line {
+  max-width: 14em;
+  font-size: clamp(3rem, 7.4vw, 6.4rem);
+  font-weight: 500;
+  line-height: 0.96;
+  letter-spacing: -0.048em;
+  text-wrap: balance;
+}
+
+.line span {
+  color: var(--accent);
+}
