@@ -48,7 +48,7 @@ export function Experience({ children }: { children?: ReactNode }) {
                   </a>
                 </li>
               </ul>
-              <a className={`btn btn-primary ${styles.download}`} href={site.resume} download="Nayara-Ormalezi-Curriculo.pdf">
+              <a className={`btn btn-primary ${styles.download}`} href={site.resume} download="Nayara-Ormalezi-CV-2026.pdf">
                 Baixar currículo PDF
                 <span aria-hidden="true">↗</span>
               </a>
@@ -175,7 +175,7 @@ export function Experience({ children }: { children?: ReactNode }) {
               </a>
             </li>
             <li>
-              <a href={site.resume} download="Nayara-Ormalezi-Curriculo.pdf">
+              <a href={site.resume} download="Nayara-Ormalezi-CV-2026.pdf">
                 Baixar CV
                 <span aria-hidden="true">↗</span>
               </a>

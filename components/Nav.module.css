@@ -124,9 +124,15 @@
 
 .menuBtn {
   display: none;
-  min-height: 2.45rem;
-  padding: 0 0.2rem 0 0.55rem;
-  font-size: 1.35rem;
+  align-items: center;
+  justify-content: center;
+  width: 2.55rem;
+  height: 2.55rem;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
 .panel {
@@ -153,25 +159,39 @@
 
   .menuBtn {
     display: inline-flex;
-    align-items: center;
+  }
+
+  .open {
+    padding-block: 0;
+    background: var(--bg);
+    backdrop-filter: none;
+    border-bottom-color: var(--border);
+    min-height: var(--header-scrolled);
   }
 
   .panel {
-    position: absolute;
-    top: calc(100% + 0.35rem);
-    left: var(--gutter);
-    right: var(--gutter);
+    position: fixed;
+    z-index: 30;
+    top: var(--header-scrolled);
+    right: 0;
+    bottom: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
-    padding: 0.4rem;
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(18px);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.15rem var(--gutter) max(1.35rem, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--bg);
     opacity: 0;
-    transform: translateY(-6px);
+    transform: translateY(-10px);
     pointer-events: none;
     visibility: hidden;
+    transition:
+      opacity 0.22s var(--ease),
+      transform 0.22s var(--ease),
+      visibility 0s linear 0.22s;
   }
 
   .panelOpen {
@@ -179,32 +199,136 @@
     transform: none;
     pointer-events: auto;
     visibility: visible;
-    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+    transition:
+      opacity 0.32s var(--ease),
+      transform 0.32s var(--ease),
+      visibility 0s;
   }
 
-  .panel a {
-    padding: 0.85rem 0.9rem;
-    font-size: 1.35rem;
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .row a,
+  .menuChat,
+  .menuCv {
+    color: var(--text);
+  }
+
+  .list a {
+    display: grid;
+    grid-template-columns: 1.7rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.72rem 0;
+    font-size: clamp(1.55rem, 6.4vw, 2.15rem);
     font-weight: 500;
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-    border-radius: var(--radius-md);
+    letter-spacing: -0.045em;
+    line-height: 1.05;
   }
 
-  .panel a:hover {
+  .index {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+
+  .dot {
+    width: 0.38rem;
+    height: 0.38rem;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .go {
+    color: var(--muted);
+    font-size: 1rem;
+    letter-spacing: 0;
+  }
+
+  .list a[aria-current="true"] .name {
     color: var(--accent);
-    background: var(--bg-secondary);
   }
 
-  .panel .chat {
-    justify-content: center;
-    margin-top: 0.35rem;
-    font-size: 1.05rem;
+  .list a:hover .name {
+    color: var(--accent);
+  }
+
+  .menuCtas {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    border-top: 1px solid var(--border);
+  }
+
+  .menuChat,
+  .menuCv {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.95rem 0;
+    background: none;
+    border-radius: 0;
+    font-size: 1.02rem;
+    font-weight: 500;
     letter-spacing: -0.02em;
   }
 
-  .panel .chat:hover {
+  .menuChat svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    color: #25d366;
+  }
+
+  .menuChat span,
+  .menuCv span {
+    margin-left: auto;
+    color: var(--muted);
+  }
+
+  .menuCv {
+    border-top: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-weight: 450;
+  }
+
+  .menuChat:hover,
+  .menuCv:hover {
     color: var(--text);
+    background: none;
     transform: none;
+  }
+
+  .row {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.2s var(--ease),
+      transform 0.2s var(--ease);
+  }
+
+  .panelOpen .row {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(40ms + var(--i) * 50ms);
+  }
+}
+
+@media (max-width: 1100px) and (prefers-reduced-motion: reduce) {
+  .panel,
+  .panelOpen,
+  .row,
+  .panelOpen .row {
+    transform: none;
+    transition: none;
   }
 }

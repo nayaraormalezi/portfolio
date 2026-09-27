@@ -22,6 +22,8 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
+  const menuBtnRef = useRef<HTMLButtonElement>(null);
   const menuId = useId();
   const pathname = usePathname();
 
@@ -50,11 +52,39 @@ export function Nav() {
   useEffect(() => {
     if (!open) return;
 
+    const header = headerRef.current;
+    const panel = panelRef.current;
+    const button = menuBtnRef.current;
+    if (!header || !panel || !button) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const focusable = () => [button, ...panel.querySelectorAll<HTMLElement>("a[href]")];
+    const frame = window.requestAnimationFrame(() => {
+      focusable()[1]?.focus();
+    });
+
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const items = focusable();
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (!first || !last) return;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     const onPointer = (event: MouseEvent) => {
-      if (!headerRef.current?.contains(event.target as Node)) setOpen(false);
+      if (!header.contains(event.target as Node)) setOpen(false);
     };
     const onResize = () => {
       if (window.innerWidth > 1100) setOpen(false);
@@ -64,18 +94,21 @@ export function Nav() {
     window.addEventListener("mousedown", onPointer);
     window.addEventListener("resize", onResize);
     return () => {
+      window.cancelAnimationFrame(frame);
+      document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("mousedown", onPointer);
       window.removeEventListener("resize", onResize);
+      button.focus();
     };
   }, [open]);
 
   return (
     <header
       ref={headerRef}
-      className={`${styles.header} ${scrolled || open ? styles.scrolled : ""}`}
+      className={`${styles.header} ${scrolled || open ? styles.scrolled : ""} ${open ? styles.open : ""}`}
     >
-      <a className={styles.logo} href="/#inicio">
+      <a className={styles.logo} href="/#inicio" onClick={() => setOpen(false)}>
         <span className={styles.full}>{site.name}</span>
         <span className={styles.short}>Nayara</span>
       </a>
@@ -112,6 +145,7 @@ export function Nav() {
           <span aria-hidden="true">↗</span>
         </Link>
         <button
+          ref={menuBtnRef}
           className={styles.menuBtn}
           type="button"
           aria-expanded={open}
@@ -124,29 +158,71 @@ export function Nav() {
       </div>
 
       <nav
+        ref={panelRef}
         id={menuId}
         className={`${styles.panel} ${open ? styles.panelOpen : ""}`}
         aria-label="Menu"
         aria-hidden={!open}
+        inert={!open}
       >
-        {nav.map((item) =>
-          item.href.startsWith("/#") ? (
-            <a key={item.id} href={item.href} onClick={() => setOpen(false)}>
-              {item.label}
-            </a>
-          ) : (
-            <Link key={item.id} href={item.href} onClick={() => setOpen(false)}>
-              {item.label}
-            </Link>
-          ),
-        )}
-        <a className={styles.chat} href={site.whatsappChat} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>
-          <WhatsAppIcon />
-          Vamos conversar
-        </a>
-        <Link href="/curriculo" onClick={() => setOpen(false)}>
-          Mostrar currículo
-        </Link>
+        <ul className={styles.list}>
+          {nav.map((item, index) => {
+            const current = active === item.id;
+            const order = { "--i": index } as React.CSSProperties;
+            const content = (
+              <>
+                <span className={styles.index}>{String(index + 1).padStart(2, "0")}</span>
+                <span className={styles.name}>
+                  {current ? <span className={styles.dot} /> : null}
+                  {item.label}
+                </span>
+                <span className={styles.go} aria-hidden="true">
+                  →
+                </span>
+              </>
+            );
+            return (
+              <li key={item.id} className={styles.row} style={order}>
+                {item.href.startsWith("/#") ? (
+                  <a href={item.href} aria-current={current ? "true" : undefined} onClick={() => setOpen(false)}>
+                    {content}
+                  </a>
+                ) : (
+                  <Link
+                    href={item.href}
+                    aria-current={pathname === item.href || current ? "true" : undefined}
+                    onClick={() => setOpen(false)}
+                  >
+                    {content}
+                  </Link>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+        <div className={styles.menuCtas}>
+          <a
+            className={`${styles.row} ${styles.menuChat}`}
+            style={{ "--i": nav.length } as React.CSSProperties}
+            href={site.whatsappChat}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setOpen(false)}
+          >
+            <WhatsAppIcon />
+            Conversar no WhatsApp
+            <span aria-hidden="true">↗</span>
+          </a>
+          <Link
+            className={`${styles.row} ${styles.menuCv}`}
+            style={{ "--i": nav.length + 1 } as React.CSSProperties}
+            href="/curriculo"
+            onClick={() => setOpen(false)}
+          >
+            Mostrar currículo
+            <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
       </nav>
     </header>
   );

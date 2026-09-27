@@ -32,7 +32,7 @@ export const site = {
   whatsappChat:
     "https://wa.me/5511991767909?text=Ol%C3%A1!%20Encontrei%20o%20seu%20site%20e%20gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20seu%20trabalho.%20",
   location: "São Paulo, Brasil",
-  resume: "/Nayara-Ormalezi-Curriculo.pdf",
+  resume: "/Nayara-Ormalezi-CV-2026.pdf",
   portrait: null as string | null,
   year: 2026,
 };

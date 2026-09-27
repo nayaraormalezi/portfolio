@@ -18,3 +18,10 @@
 .line span {
   color: var(--accent);
 }
+
+@media (max-width: 800px) {
+  .section {
+    min-height: 0;
+    padding-block: 2.75rem;
+  }
+}
