@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Geist } from "next/font/google";
 import { Motion } from "@/components/Motion";
-import { site } from "@/lib/content";
+import { shareImage, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
 const sans = Geist({
@@ -12,19 +12,29 @@ const sans = Geist({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Nayara Ormalezi — Product Designer",
-    template: "%s — Nayara Ormalezi",
+    default: "Nayara Ormalezi | Product Designer · UX/UI Designer",
+    template: "%s | Nayara Ormalezi",
   },
   description:
-    "Product Designer na CAIXA Consórcio. Portfólio, trajetória e projetos freelance em produtos digitais, UX/UI e sistemas de design.",
-  authors: [{ name: site.name }],
+    "Product Designer em São Paulo, com experiência em UX/UI, produtos digitais, Design Systems e jornadas complexas. Conheça meus projetos, trajetória e serviços de design.",
+  applicationName: "Nayara Ormalezi",
+  authors: [{ name: "Nayara Ormalezi", url: siteUrl }],
+  creator: "Nayara Ormalezi",
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
-    title: "Nayara Ormalezi — Product Designer",
-    description:
-      "Portfólio de design de produto, trajetória profissional e projetos freelance.",
     type: "website",
     locale: "pt_BR",
+    siteName: "Nayara Ormalezi",
+    images: [{ url: shareImage.url, alt: shareImage.alt, width: shareImage.width, height: shareImage.height }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [shareImage.url],
   },
 };
 
@@ -32,24 +42,6 @@ export const viewport: Viewport = {
   themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
-};
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: site.name,
-  jobTitle: site.role,
-  worksFor: {
-    "@type": "Organization",
-    name: "CAIXA Consórcio",
-  },
-  sameAs: [site.linkedin],
-  knowsAbout: [
-    "Design de produto",
-    "Estratégia de UX",
-    "Sistemas de design",
-    "Inteligência de produto",
-  ],
 };
 
 export default function RootLayout({
@@ -62,10 +54,6 @@ export default function RootLayout({
         <a className="skip" href="#main">
           Ir para o conteúdo
         </a>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
         {children}
       </body>
     </html>

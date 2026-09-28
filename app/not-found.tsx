@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Arrow } from "@/components/Arrow";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+
+export const metadata: Metadata = {
+  title: { absolute: "Página não encontrada | Nayara Ormalezi" },
+  robots: "noindex, nofollow",
+};
 
 export default function NotFound() {
   return (

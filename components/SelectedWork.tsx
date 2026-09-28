@@ -119,7 +119,13 @@ function ProjectCarousel() {
   );
 }
 
-export function SelectedWork({ variant = "list" }: { variant?: "carousel" | "list" }) {
+export function SelectedWork({
+  variant = "list",
+  headingLevel = "h2",
+}: {
+  variant?: "carousel" | "list";
+  headingLevel?: "h1" | "h2";
+}) {
   return (
     <section className="section" id="projetos" aria-labelledby="projetos-title">
       <div className="wrap">
@@ -127,6 +133,7 @@ export function SelectedWork({ variant = "list" }: { variant?: "carousel" | "lis
           <SectionHeading
             id="projetos-title"
             index="04"
+            level={headingLevel}
             title="Projetos selecionados"
             lede="Uma seleção de projetos que representam diferentes dimensões da minha atuação em design de produto."
           />

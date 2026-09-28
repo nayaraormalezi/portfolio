@@ -4,13 +4,16 @@ import { Arrow } from "@/components/Arrow";
 import { Experience } from "@/components/Experience";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { pageMetadata } from "@/lib/seo";
 import styles from "./curriculo.module.css";
 
-export const metadata: Metadata = {
-  title: "Currículo",
+export const metadata: Metadata = pageMetadata({
+  title: "Trajetória | Nayara Ormalezi — Product Designer",
   description:
-    "Currículo de Nayara Ormalezi: trajetória, da comunicação e do design ao product design.",
-};
+    "Conheça a trajetória profissional de Nayara Ormalezi em Product Design, UX/UI e experiências digitais, com experiências em CAIXA Consórcio, TOTVS e outros projetos.",
+  path: "/curriculo",
+  absolute: true,
+});
 
 export default function ResumePage() {
   return (

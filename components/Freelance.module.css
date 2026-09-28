@@ -17,6 +17,7 @@
   letter-spacing: 0.16em;
 }
 
+.panel h1,
 .panel h2 {
   max-width: 14em;
   font-size: clamp(2.3rem, 4.4vw, 3.6rem);

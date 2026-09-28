@@ -2,19 +2,21 @@ import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { SelectedWork } from "@/components/SelectedWork";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Projetos",
   description:
-    "Projetos selecionados de Nayara Ormalezi em design de produto, UX/UI e sistemas de design.",
-};
+    "Projetos de Product Design, UX/UI e experiências digitais, com foco em jornadas, interfaces, sistemas e soluções para produtos digitais.",
+  path: "/projetos",
+});
 
 export default function ProjectsPage() {
   return (
     <>
       <Nav />
       <main id="main" className="page-main">
-        <SelectedWork />
+        <SelectedWork headingLevel="h1" />
       </main>
       <Footer />
     </>

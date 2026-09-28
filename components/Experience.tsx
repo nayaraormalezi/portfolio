@@ -28,7 +28,7 @@ export function Experience({ children }: { children?: ReactNode }) {
 
         <div className={`${styles.intro} reveal`}>
           <div>
-            <SectionHeading id="trajetoria-title" index="05" title="Minha trajetória" />
+            <SectionHeading id="trajetoria-title" index="05" level="h1" title="Minha trajetória" />
             <p className={styles.lede}>{trajectoryIntro}</p>
             <ul className={styles.focus}>
               {trajectoryFocus.map((item) => (

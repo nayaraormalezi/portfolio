@@ -5,16 +5,19 @@ type Props = {
   title: string;
   lede?: string;
   id: string;
+  level?: "h1" | "h2";
 };
 
-export function SectionHeading({ index, title, lede, id }: Props) {
+export function SectionHeading({ index, title, lede, id, level = "h2" }: Props) {
+  const Title = level === "h1" ? "h1" : "h2";
+
   return (
     <header className={styles.header}>
       <p className={styles.index}>{index}</p>
       <div>
-        <h2 id={id} className={styles.title}>
+        <Title id={id} className={styles.title}>
           {title}
-        </h2>
+        </Title>
         {lede ? <p className={styles.lede}>{lede}</p> : null}
       </div>
     </header>
